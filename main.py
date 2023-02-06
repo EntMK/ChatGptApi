@@ -18,7 +18,7 @@ async def return_message(q: Optional[str] = ''):
 
     if q == "":
         return {"message": ''}
-    os.environ["OPENAI_API_KEY"] = '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'
+    os.environ["OPENAI_API_KEY"] = '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'
     openai.api_key = os.environ["OPENAI_API_KEY"]
     user_text = q
     completions = openai.Completion.create(
@@ -27,7 +27,6 @@ async def return_message(q: Optional[str] = ''):
         prompt=user_text,  # What the user typed in
         max_tokens=1000,  # Maximum tokens in the prompt AND response
         n=1,  # The number of completions to generate
-        stop=None,  # An optional setting to control response generation
     )
 
     text = completions.choices[0].text
