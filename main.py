@@ -20,6 +20,8 @@ async def return_message(q: Optional[str] = ''):
     if q == "":
         return {"message": ''}
 
+    os.environ["OPENAI_API_KEY"] = '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'
+    openai.api_key = os.environ["OPENAI_API_KEY"]
     user_text = q
     completions = openai.Completion.create(
         engine='text-davinci-003',  # Determines the quality, speed, and cost.
