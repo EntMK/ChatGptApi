@@ -18,6 +18,7 @@ async def return_message(q: Optional[str] = ''):
 
     if q == "":
         return {"message": ''}
+    openai.api_key = os.environ["OPENAI_API_KEY"]
     print(os.environ["OPENAI_API_KEY"])
     openai.api_key = os.environ["OPENAI_API_KEY"]
     user_text = q
