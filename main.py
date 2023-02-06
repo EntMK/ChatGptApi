@@ -5,6 +5,7 @@ import os
 
 app = FastAPI()
 
+os.environ["OPENAI_API_KEY"] = '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'
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 
