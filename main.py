@@ -1,8 +1,13 @@
 from fastapi import FastAPI
 import openai
 from typing import Optional
+import os
 
 app = FastAPI()
+
+openai.api_key = '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'
+
+os.environ["OPENAI_API_KEY"] = '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'
 
 
 @app.get("/")
@@ -15,8 +20,6 @@ async def return_message(q: Optional[str] = ''):
 
     if q == "":
         return {"message": ''}
-
-    openai.api_key = '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'
 
     user_text = q
     completions = openai.Completion.create(
