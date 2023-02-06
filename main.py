@@ -5,7 +5,7 @@ import os
 
 app = FastAPI()
 
-os.environ["OPENAI_API_KEY"] = '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'
+os.environ["OPENAI_API_KEY"] = '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'
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 
@@ -20,7 +20,7 @@ async def return_message(q: Optional[str] = ''):
     if q == "":
         return {"message": ''}
 
-    os.environ["OPENAI_API_KEY"] = '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'
+    os.environ["OPENAI_API_KEY"] = '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'
     openai.api_key = os.environ["OPENAI_API_KEY"]
     user_text = q
     completions = openai.Completion.create(
