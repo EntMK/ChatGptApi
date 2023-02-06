@@ -2,7 +2,7 @@ import openai
 import os
 
 
-openai.api_key = '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'
+openai.api_key = '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'
 
 user_text = '철학이란'
 completions = openai.Completion.create(
@@ -10,7 +10,7 @@ completions = openai.Completion.create(
         temperature=0.5,            # Level of creativity in the response
         prompt=user_text,           # What the user typed in
         max_tokens=1000,             # Maximum tokens in the prompt AND response
-        n=1,                        # The number of completions to generate
+
 
 )
 
