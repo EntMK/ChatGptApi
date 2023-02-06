@@ -16,7 +16,7 @@ async def return_message(q: Optional[str] = ''):
     if q == "":
         return {"message": ''}
 
-    openai.api_key = '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'
+    openai.api_key = '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'
 
     user_text = q
     completions = openai.Completion.create(
