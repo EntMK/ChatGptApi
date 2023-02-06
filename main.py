@@ -5,9 +5,6 @@ import os
 
 app = FastAPI()
 
-openai.api_key = os.environ["OPENAI_API_KEY"]
-
-
 @app.get("/")
 async def root():
     return {"message": "healthy"}
@@ -18,8 +15,8 @@ async def return_message(q: Optional[str] = ''):
 
     if q == "":
         return {"message": ''}
-    os.environ["OPENAI_API_KEY"] = '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'
-    openai.api_key = os.environ["OPENAI_API_KEY"]
+
+    openai.api_key = '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'
     user_text = q
     completions = openai.Completion.create(
         engine='text-davinci-003',  # Determines the quality, speed, and cost.
