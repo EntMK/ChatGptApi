@@ -5,9 +5,8 @@ import os
 
 app = FastAPI()
 
-openai.api_key = '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'
-
-os.environ["OPENAI_API_KEY"] = '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'
+os.environ["OPENAI_API_KEY"] = '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'
+openai.api_key = os.environ["OPENAI_API_KEY"]
 
 
 @app.get("/")
