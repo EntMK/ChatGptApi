@@ -17,7 +17,7 @@ async def return_message(q: Optional[str] = ''):
     if q == "":
         return {"message": ''}
 
-    openai.api_key = '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'
+    openai.api_key = os.environ["OPENAI_API_KEY"]
     user_text = q
     completions = openai.Completion.create(
         engine='text-davinci-003',  # Determines the quality, speed, and cost.
@@ -25,6 +25,8 @@ async def return_message(q: Optional[str] = ''):
         prompt=user_text,  # What the user typed in
         max_tokens=1000,  # Maximum tokens in the prompt AND response
         n=1,  # The number of completions to generate
+        frequency_penalty=0,
+        presence_penalty=0
     )
 
     text = completions.choices[0].text
