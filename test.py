@@ -2,7 +2,7 @@ import openai
 import os
 
 
-openai.api_key = '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'
+openai.api_key = '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'
 
 user_text = '철학이란'
 completions = openai.Completion.create(
