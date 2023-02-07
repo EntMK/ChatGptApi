@@ -30,20 +30,20 @@ async def test():
 async def gpt_message(q: Optional[str] = ''):
 
     if q == "":
-        yield {"message": ''}
+        return {"message": ''}
 
     number = answer_number.pop()
     answer_number.append(number + 1)
 
     await request_processing(q, str(number))
 
-    yield {'message': q, 'answer_number': str(number)}
+    return {'message': q, 'answer_number': str(number)}
 
 
 async def request_processing(q, number):
     openai.api_key = os.environ["OPENAI_API_KEY"]
     user_text = q
-    completions = openai.Completion.create(
+    completions = await openai.Completion.create(
         engine='text-davinci-003',  # Determines the quality, speed, and cost.
         temperature=0.5,  # Level of creativity in the response
         prompt=user_text,  # What the user typed in
