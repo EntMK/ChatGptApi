@@ -2,8 +2,15 @@ from fastapi import FastAPI
 import openai
 from typing import Optional
 import os
+from pymongo import MongoClient
+
+_CLIENT = MongoClient(host='ec2-3-36-45-47.ap-northeast-2.compute.amazonaws.com', port=33033)
+db = _CLIENT['hobby']
+collection = db['gpt']
 
 app = FastAPI()
+
+answer_number = [1]
 
 
 @app.get("/")
@@ -11,12 +18,27 @@ async def root():
     return {"message": "healthy"}
 
 
+@app.get("/test")
+async def test():
+    number = answer_number.pop()
+    answer_number.append(number + 1)
+    return {'answer_number': number}
+
+
 @app.get("/gpt")
-async def return_message(q: Optional[str] = ''):
+async def gpt_message(q: Optional[str] = ''):
 
     if q == "":
         return {"message": ''}
 
+    number = answer_number.pop()
+    answer_number.append(number + 1)
+    await request_processing(q, str(number))
+
+    return {'question': q, 'answer_number': str(number)}
+
+
+async def request_processing(q, number):
     openai.api_key = os.environ["OPENAI_API_KEY"]
     user_text = q
     completions = openai.Completion.create(
@@ -31,5 +53,20 @@ async def return_message(q: Optional[str] = ''):
 
     text = completions.choices[0].text
     text = text.replace('\n', '')
-    return {"message": text}
+
+    info = {'answer_number': number, 'question': q, 'answer': text}
+
+    collection.insert_one(info)
+
+
+@app.get('/gpt/answer')
+async def answer_question(q: Optional[str] = ''):
+
+    info = list(collection.find({'answer_number': q}))
+
+    if len(info) == 0:
+        return 0
+
+    else:
+        return info
 
