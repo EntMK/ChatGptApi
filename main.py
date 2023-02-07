@@ -3,6 +3,7 @@ import openai
 from typing import Optional
 import os
 from pymongo import MongoClient
+import asyncio
 
 _CLIENT = MongoClient(host='ec2-3-36-45-47.ap-northeast-2.compute.amazonaws.com', port=33033)
 db = _CLIENT['hobby']
@@ -33,9 +34,10 @@ async def gpt_message(q: Optional[str] = ''):
 
     number = answer_number.pop()
     answer_number.append(number + 1)
-    yield {'question': q, 'answer_number': str(number)}
 
     await request_processing(q, str(number))
+
+    yield {'message': q, 'answer_number': str(answer_number)}
 
 
 async def request_processing(q, number):
