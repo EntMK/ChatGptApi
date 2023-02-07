@@ -3,7 +3,7 @@ import openai
 from typing import Optional
 import os
 from pymongo import MongoClient
-import asyncio
+import requests
 
 _CLIENT = MongoClient(host='ec2-3-36-45-47.ap-northeast-2.compute.amazonaws.com', port=33033)
 db = _CLIENT['hobby']
@@ -26,7 +26,7 @@ async def test():
     return {'answer_number': number}
 
 
-@app.get("/gpt")
+@app.get("/message")
 async def gpt_message(q: Optional[str] = ''):
 
     if q == "":
@@ -35,15 +35,17 @@ async def gpt_message(q: Optional[str] = ''):
     number = answer_number.pop()
     answer_number.append(number + 1)
 
-    await request_processing(q, str(number))
+    requests.get('http://3.34.137.81:8000/gpt?q=' + q + '&number=' + str(number))
 
     return {'message': q, 'answer_number': str(number)}
 
 
-async def request_processing(q, number):
+@app.get("/gpt")
+async def request_processing(q: Optional[str] = '', number: Optional[str] = ''):
+
     openai.api_key = os.environ["OPENAI_API_KEY"]
     user_text = q
-    completions = await openai.Completion.create(
+    completions = openai.Completion.create(
         engine='text-davinci-003',  # Determines the quality, speed, and cost.
         temperature=0.5,  # Level of creativity in the response
         prompt=user_text,  # What the user typed in
