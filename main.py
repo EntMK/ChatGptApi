@@ -30,14 +30,14 @@ async def test():
 async def gpt_message(q: Optional[str] = ''):
 
     if q == "":
-        return {"message": ''}
+        yield {"message": ''}
 
     number = answer_number.pop()
     answer_number.append(number + 1)
 
     await request_processing(q, str(number))
 
-    return {'message': q, 'answer_number': str(number)}
+    yield {'message': q, 'answer_number': str(number)}
 
 
 async def request_processing(q, number):
